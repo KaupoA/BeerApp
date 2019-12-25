@@ -1,56 +1,100 @@
 package com.example.beer;
 
-import android.os.Bundle;
-import android.util.Log;
-
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.beer.model.BeerService;
-import com.example.beer.model.dto.Beer;
-
-import java.util.List;
-
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.moshi.MoshiConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
+
+import android.os.Bundle;
+import android.util.Log;
+
+import com.example.beer.model.dto.Beer;
+import com.example.beer.model.dto.BeerInterface;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        recyclerView = findViewById(R.id.recycler_view_retrofit);
 
-        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+        fetchJSON();
+    }
+
+    private void fetchJSON() {
+
         Retrofit retrofit = new Retrofit.Builder()
-                .client(client)
-                .baseUrl(getString(R.string.api_base_url))
-                .addConverterFactory(MoshiConverterFactory.create())
+                .baseUrl(BeerInterface.BASE_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
                 .build();
 
-        BeerService beerService = retrofit.create(BeerService.class);
-        Call<List<Beer>> call = beerService.getBeers();
-        call.enqueue(new Callback<List<Beer>>() {
-            @SuppressWarnings("NullableProblems")
+        BeerInterface api = retrofit.create(BeerInterface.class);
+
+        Call<String> call = api.getString();
+
+        call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<List<Beer>> call, Response<List<Beer>> response) {
-                if (response.body() != null) {
-                    Log.d("Response", response.body().toString());
+            public void onResponse(Call<String> call, Response<String> response) {
+
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        Log.i("onSuccess", response.body());
+
+                        String jsonresponse = response.body();
+                        writeRecycler(jsonresponse);
+                    } else {
+                        Log.e("onEmptyResponse", "Returned empty response");
+                    }
                 }
             }
 
-            @SuppressWarnings("NullableProblems")
             @Override
-            public void onFailure(Call<List<Beer>> call, Throwable t) {
-                Log.d("Response", t.toString());
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.e("onFailure", t.toString());
             }
         });
+    }
+
+    private void writeRecycler(String response) {
+
+        try {
+
+            List<Beer> beers = new ArrayList<>();
+            JSONArray dataArray = new JSONArray(response);
+
+            for (int i = 0; i < dataArray.length(); i++) {
+
+                Beer beer = new Beer();
+                JSONObject dataobj = dataArray.getJSONObject(i);
+
+                beer.setImage_url(dataobj.getString("image_url"));
+                beer.setName(dataobj.getString("name"));
+
+                beers.add(beer);
+            }
+
+            RetrofitAdapter retrofitAdapter = new RetrofitAdapter(this, beers);
+            recyclerView.setLayoutManager(new LinearLayoutManager
+                    (getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+            recyclerView.setAdapter(retrofitAdapter);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

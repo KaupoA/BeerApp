@@ -2,16 +2,7 @@ package com.example.beer.model.dto;
 
 public class Beer {
 
-    private int id;
-    private String name;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    private String name, image_url;
 
     public String getName() {
         return name;
@@ -20,4 +11,13 @@ public class Beer {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getImage_url() {
+        return image_url;
+    }
+
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
+    }
 }
+
