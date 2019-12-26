@@ -1,6 +1,6 @@
 package com.example.beer.model.dto;
 
-public class Beer {
+public class BeerDto {
 
     private String name, image_url;
 
