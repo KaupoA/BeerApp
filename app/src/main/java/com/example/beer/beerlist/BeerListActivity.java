@@ -6,8 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.beer.BeerAdapter;
+import com.example.beer.beerlist.widget.BeerListAdapter;
 import com.example.beer.R;
+import com.example.beer.beerlist.widget.OnBottomReachedListener;
 import com.example.beer.model.BeerService;
 import com.example.beer.model.dto.BeerDto;
 
@@ -23,19 +24,16 @@ import retrofit2.converter.moshi.MoshiConverterFactory;
 
 public class BeerListActivity extends AppCompatActivity {
 
+    private int pageNumber = 1;
+    private BeerListAdapter beerListAdapter;
+    private BeerService beerService;
+
     private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        recyclerView = findViewById(R.id.recycler_view_retrofit);
-
-        fetchJSON();
-    }
-
-    private void fetchJSON() {
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -47,20 +45,34 @@ public class BeerListActivity extends AppCompatActivity {
                 .addConverterFactory(MoshiConverterFactory.create())
                 .build();
 
-        BeerService beerService = retrofit.create(BeerService.class);
+        beerService = retrofit.create(BeerService.class);
 
-        Call<List<BeerDto>> call = beerService.getBeers();
+        recyclerView = findViewById(R.id.recycler_view_retrofit);
+        beerListAdapter = new BeerListAdapter(this);
+        recyclerView.setLayoutManager(new LinearLayoutManager
+                (getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(beerListAdapter);
+
+        beerListAdapter.setOnBottomReachedListener(new OnBottomReachedListener() {
+            @Override
+            public void onBottomReached(int position) {
+                pageNumber++;
+                fetchJSON();
+            }
+        });
+        fetchJSON();
+    }
+
+    private void fetchJSON() {
+
+        Call<List<BeerDto>> call = beerService.getBeers(pageNumber);
 
         call.enqueue(new Callback<List<BeerDto>>() {
             @Override
             public void onResponse(Call<List<BeerDto>> call, Response<List<BeerDto>> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
-
-                        BeerAdapter beerAdapter = new BeerAdapter(getApplicationContext(), response.body());
-                        recyclerView.setLayoutManager(new LinearLayoutManager
-                                (getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-                        recyclerView.setAdapter(beerAdapter);
+                        beerListAdapter.submitBeers(response.body());
                     }
                 }
             }
