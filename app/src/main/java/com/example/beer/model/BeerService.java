@@ -1,6 +1,6 @@
 package com.example.beer.model;
 
-import com.example.beer.model.dto.Beer;
+import com.example.beer.model.dto.BeerDto;
 
 import java.util.List;
 
@@ -10,5 +10,5 @@ import retrofit2.http.GET;
 public interface BeerService {
 
     @GET("beers")
-    Call<List<Beer>> getBeers();
+    Call<List<BeerDto>> getBeers();
 }
