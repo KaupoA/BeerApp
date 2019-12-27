@@ -6,9 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.beer.beerlist.widget.BeerListAdapter;
 import com.example.beer.R;
-import com.example.beer.beerlist.widget.OnBottomReachedListener;
+import com.example.beer.beerlist.widget.BeerListAdapter;
 import com.example.beer.model.BeerService;
 import com.example.beer.model.dto.BeerDto;
 
@@ -28,8 +27,6 @@ public class BeerListActivity extends AppCompatActivity {
     private BeerListAdapter beerListAdapter;
     private BeerService beerService;
 
-    private RecyclerView recyclerView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,18 +44,15 @@ public class BeerListActivity extends AppCompatActivity {
 
         beerService = retrofit.create(BeerService.class);
 
-        recyclerView = findViewById(R.id.recycler_view_retrofit);
+        RecyclerView recyclerView = findViewById(R.id.recycler_view_retrofit);
         beerListAdapter = new BeerListAdapter(this);
         recyclerView.setLayoutManager(new LinearLayoutManager
                 (getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(beerListAdapter);
 
-        beerListAdapter.setOnBottomReachedListener(new OnBottomReachedListener() {
-            @Override
-            public void onBottomReached(int position) {
-                pageNumber++;
-                fetchJSON();
-            }
+        beerListAdapter.setOnBottomReachedListener(position -> {
+            pageNumber++;
+            fetchJSON();
         });
         fetchJSON();
     }

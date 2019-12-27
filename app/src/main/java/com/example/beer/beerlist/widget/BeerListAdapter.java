@@ -1,10 +1,12 @@
 package com.example.beer.beerlist.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.beer.R;
+import com.example.beer.beerlist.BeerViewActivity;
 import com.example.beer.model.dto.BeerDto;
 
 import java.util.ArrayList;
@@ -23,9 +26,11 @@ public class BeerListAdapter extends RecyclerView.Adapter<BeerListAdapter.MyView
 
     private LayoutInflater inflater;
     private List<BeerDto> beerDtos = new ArrayList<>();
+    private Context mContext;
 
     public BeerListAdapter(Context context) {
         inflater = LayoutInflater.from(context);
+        mContext = context;
     }
 
     @NonNull
@@ -46,6 +51,13 @@ public class BeerListAdapter extends RecyclerView.Adapter<BeerListAdapter.MyView
         if (position == beerDtos.size() - 1) {
             onBottomReachedListener.onBottomReached(position);
         }
+
+        holder.beerListLayout.setOnClickListener(v -> {
+
+            Intent beerIntent = new Intent(mContext, BeerViewActivity.class);
+            beerIntent.putExtra("beer_name", beerDtos.get(position).getName());
+            mContext.startActivity(beerIntent);
+        });
     }
 
     @Override
@@ -62,12 +74,14 @@ public class BeerListAdapter extends RecyclerView.Adapter<BeerListAdapter.MyView
 
         TextView imageName;
         ImageView imageView;
+        RelativeLayout beerListLayout;
 
         MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             imageName = itemView.findViewById(R.id.image_name);
             imageView = itemView.findViewById(R.id.image);
+            beerListLayout = itemView.findViewById(R.id.beer_list_layout);
         }
     }
 
