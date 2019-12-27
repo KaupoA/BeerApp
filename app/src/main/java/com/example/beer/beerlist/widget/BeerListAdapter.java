@@ -24,12 +24,10 @@ public class BeerListAdapter extends RecyclerView.Adapter<BeerListAdapter.MyView
 
     private OnBottomReachedListener onBottomReachedListener;
 
-    private LayoutInflater inflater;
     private List<BeerDto> beerDtos = new ArrayList<>();
     private Context mContext;
 
     public BeerListAdapter(Context context) {
-        inflater = LayoutInflater.from(context);
         mContext = context;
     }
 
@@ -37,7 +35,7 @@ public class BeerListAdapter extends RecyclerView.Adapter<BeerListAdapter.MyView
     @Override
     public BeerListAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = inflater.inflate(R.layout.beer_list_item, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.beer_list_item, parent, false);
 
         return new MyViewHolder(view);
     }
