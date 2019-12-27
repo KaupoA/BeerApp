@@ -1,11 +1,11 @@
 package com.example.beer.filtersettings;
 
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends PreferenceActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
