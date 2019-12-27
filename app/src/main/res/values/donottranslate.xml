@@ -1,4 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="api_base_url">https://api.punkapi.com/v2/</string>
+
+    <string-array name="filter_settings_filter_by_key">
+        <item>abv</item>
+        <item>ibu</item>
+        <item>ebc</item>
+    </string-array>
+    <string-array name="filter_settings_order_key">
+        <item>asc</item>
+        <item>desc</item>
+    </string-array>
+    <string-array name="filter_settings_filter_by_values">
+        <item>@string/filter_settings_abv</item>
+        <item>@string/filter_settings_ibu</item>
+        <item>@string/filter_settings_ebc</item>
+    </string-array>
+    <string-array name="filter_settings_order_values">
+        <item>@string/filter_settings_asc</item>
+        <item>@string/filter_settings_desc</item>
+    </string-array>
+    <string name="shared_prefs_filter_settings_by">Filter by</string>
+    <string name="shared_prefs_filter_settings_order">Order</string>
+
 </resources>

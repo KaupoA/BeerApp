@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".beerdetails.BeerDetailsActivity" />
-        <activity android:name=".filtersettings.SettingsActivity" />
+        <activity android:name=".filtersettings.FilterSettingsActivity" />
     </application>
 
 </manifest>

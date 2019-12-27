@@ -4,4 +4,13 @@
     <string name="beer_list_image_description">Beer image</string>
     <string name="beer_list_filter">Filter</string>
     <string name="beer_list_settings">Settings</string>
+
+    <string name="filter_settings_by">Filter by</string>
+    <string name="filter_settings_order">Order</string>
+    <string name="filter_settings_abv">ABV</string>
+    <string name="filter_settings_ibu">IBU</string>
+    <string name="filter_settings_ebc">EBC</string>
+    <string name="filter_settings_asc">Ascending</string>
+    <string name="filter_settings_desc">Descending</string>
+
 </resources>

@@ -1,6 +1,7 @@
 package com.example.beer.beerlist;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -8,12 +9,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.beer.R;
 import com.example.beer.beerlist.widget.BeerListAdapter;
-import com.example.beer.filtersettings.SettingsActivity;
+import com.example.beer.filtersettings.FilterSettingsActivity;
 import com.example.beer.model.BeerService;
 import com.example.beer.model.dto.BeerDto;
 
@@ -92,12 +95,15 @@ public class BeerListActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String filterBy = sharedPreferences.getString(getString(R.string.shared_prefs_filter_settings_by), getString(R.string.filter_settings_abv));
+        String orderBy = sharedPreferences.getString(getString(R.string.shared_prefs_filter_settings_order), getString(R.string.filter_settings_asc));
         switch (item.getItemId()) {
             case R.id.filter:
-                Toast.makeText(this, "I will sort things for you.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, filterBy + orderBy, Toast.LENGTH_SHORT).show();
                 break;
             case R.id.settings:
-                Intent settingsIntent = new Intent(this, SettingsActivity.class);
+                Intent settingsIntent = new Intent(this, FilterSettingsActivity.class);
                 startActivity(settingsIntent);
                 break;
         }
