@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.beer.R;
-import com.example.beer.beerlist.BeerViewActivity;
+import com.example.beer.beerdetails.BeerDetailsActivity;
 import com.example.beer.model.dto.BeerDto;
 
 import java.util.ArrayList;
@@ -52,7 +52,7 @@ public class BeerListAdapter extends RecyclerView.Adapter<BeerListAdapter.MyView
 
         holder.beerListLayout.setOnClickListener(v -> {
 
-            Intent beerIntent = new Intent(mContext, BeerViewActivity.class);
+            Intent beerIntent = new Intent(mContext, BeerDetailsActivity.class);
             beerIntent.putExtra("beer_name", beerDtos.get(position).getName());
             mContext.startActivity(beerIntent);
         });

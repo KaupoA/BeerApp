@@ -21,7 +21,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".beerlist.BeerViewActivity" />
+        <activity android:name=".beerdetails.BeerDetailsActivity" />
+        <activity android:name=".filtersettings.SettingsActivity" />
     </application>
 
 </manifest>

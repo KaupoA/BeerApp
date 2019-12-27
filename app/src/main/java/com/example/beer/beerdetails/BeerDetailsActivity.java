@@ -1,4 +1,4 @@
-package com.example.beer.beerlist;
+package com.example.beer.beerdetails;
 
 import android.os.Bundle;
 import android.widget.TextView;
@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.beer.R;
 
-public class BeerViewActivity extends AppCompatActivity {
+public class BeerDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

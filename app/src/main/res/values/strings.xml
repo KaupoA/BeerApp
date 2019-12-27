@@ -2,4 +2,6 @@
     <string name="app_name">Beer</string>
 
     <string name="beer_list_image_description">Beer image</string>
+    <string name="beer_list_filter">Filter</string>
+    <string name="beer_list_settings">Settings</string>
 </resources>
