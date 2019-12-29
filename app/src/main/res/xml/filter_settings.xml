@@ -5,7 +5,7 @@
         android:defaultValue="@string/filter_settings_abv"
         android:entries="@array/filter_settings_filter_by_values"
         android:entryValues="@array/filter_settings_filter_by_key"
-        android:icon="@drawable/ic_child_care"
+        android:icon="@drawable/ic_shopping_cart"
         android:summary="%s"
         android:key="@string/shared_prefs_filter_settings_by"
         android:title="@string/filter_settings_by" />
