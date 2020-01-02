@@ -9,22 +9,58 @@
     android:id="@+id/beer_list_layout">
 
     <ImageView
-        android:id="@+id/image"
+        android:id="@+id/beer_image"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:contentDescription="@string/beer_list_image_description"
         android:scaleType="fitCenter"
-        android:src="@mipmap/ic_launcher"
-        android:contentDescription="@string/beer_list_image_description" />
+        android:src="@mipmap/ic_launcher" />
 
     <TextView
-        android:id="@+id/image_name"
-        android:layout_width="wrap_content"
+        android:id="@+id/beer_name"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginStart="20dp"
-        android:layout_toEndOf="@+id/image"
+        android:layout_toEndOf="@+id/beer_image"
         android:textColor="#000"
         android:textSize="17sp"
         tools:text="Saku Originaal" />
+
+    <TextView
+        android:id="@+id/beer_abv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="20dp"
+        android:textAllCaps="true"
+        android:textColor="#000"
+        android:textSize="17sp"
+        tools:ignore="RelativeOverlap"
+        tools:text="ABV: 4.5" />
+
+    <TextView
+        android:id="@+id/beer_ibu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/beer_abv"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="20dp"
+        android:textAllCaps="true"
+        android:textColor="#000"
+        android:textSize="17sp"
+        tools:text="IBU: 60" />
+
+    <TextView
+        android:id="@+id/beer_ebc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/beer_ibu"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="20dp"
+        android:textAllCaps="true"
+        android:textColor="#000"
+        android:textSize="17sp"
+        tools:text="EBC: 20" />
 
 </RelativeLayout>

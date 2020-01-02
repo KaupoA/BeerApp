@@ -1,5 +1,6 @@
 package com.example.beer.beerlist.widget;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -40,11 +41,25 @@ public class BeerListAdapter extends RecyclerView.Adapter<BeerListAdapter.MyView
         return new MyViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull BeerListAdapter.MyViewHolder holder, int position) {
 
         Glide.with(holder.itemView).load(beerDtos.get(position).getImage_url()).into(holder.imageView);
         holder.imageName.setText(beerDtos.get(position).getName());
+        holder.beerAbv.setText(Double.toString((beerDtos.get(position).getAbv())));
+
+        if (beerDtos.get(position).getIbu() == null) {
+            holder.beerIbu.setText(Double.toString(0));
+        } else {
+            holder.beerIbu.setText(Double.toString((beerDtos.get(position).getIbu())));
+        }
+
+        if (beerDtos.get(position).getEbc() == null) {
+            holder.beerEbc.setText(Double.toString(0));
+        } else {
+            holder.beerEbc.setText(Double.toString((beerDtos.get(position).getEbc())));
+        }
 
         if (position == beerDtos.size() - 1) {
             onBottomReachedListener.onBottomReached(position);
@@ -71,14 +86,20 @@ public class BeerListAdapter extends RecyclerView.Adapter<BeerListAdapter.MyView
     class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView imageName;
+        TextView beerAbv;
+        TextView beerIbu;
+        TextView beerEbc;
         ImageView imageView;
         RelativeLayout beerListLayout;
 
         MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            imageName = itemView.findViewById(R.id.image_name);
-            imageView = itemView.findViewById(R.id.image);
+            imageName = itemView.findViewById(R.id.beer_name);
+            beerAbv = itemView.findViewById(R.id.beer_abv);
+            beerIbu = itemView.findViewById(R.id.beer_ibu);
+            beerEbc = itemView.findViewById(R.id.beer_ebc);
+            imageView = itemView.findViewById(R.id.beer_image);
             beerListLayout = itemView.findViewById(R.id.beer_list_layout);
         }
     }

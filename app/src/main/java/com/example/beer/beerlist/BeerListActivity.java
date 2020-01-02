@@ -20,6 +20,8 @@ import com.example.beer.filtersettings.FilterSettingsActivity;
 import com.example.beer.model.BeerService;
 import com.example.beer.model.dto.BeerDto;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -33,8 +35,10 @@ import retrofit2.converter.moshi.MoshiConverterFactory;
 public class BeerListActivity extends AppCompatActivity {
 
     private int pageNumber = 1;
+    private int filterOn = 0;
     private BeerListAdapter beerListAdapter;
     private BeerService beerService;
+    private List<BeerDto> beerDtos = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,13 +104,27 @@ public class BeerListActivity extends AppCompatActivity {
         String orderBy = sharedPreferences.getString(getString(R.string.shared_prefs_filter_settings_order), getString(R.string.filter_settings_asc));
         switch (item.getItemId()) {
             case R.id.filter:
-                Toast.makeText(this, filterBy + orderBy, Toast.LENGTH_SHORT).show();
-                break;
+                if (filterOn == 0) {
+                    Toast.makeText(this, "Sorted by " + filterBy.toUpperCase() +
+                            " and " + orderBy.toUpperCase() + ".", Toast.LENGTH_SHORT).show();
+
+                    Collections.sort(beerDtos, new BeerDto.sortByName());
+
+                    beerListAdapter.notifyDataSetChanged();
+
+                    item.setIcon(R.drawable.ic_shopping_cart);
+                    filterOn = 1;
+                } else {
+                    item.setIcon(R.drawable.ic_sort);
+                    filterOn = 0;
+                }
+                return true;
             case R.id.settings:
                 Intent settingsIntent = new Intent(this, FilterSettingsActivity.class);
                 startActivity(settingsIntent);
-                break;
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return true;
     }
 }
