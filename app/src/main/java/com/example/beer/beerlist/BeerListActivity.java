@@ -5,11 +5,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -79,7 +77,8 @@ public class BeerListActivity extends AppCompatActivity {
             public void onResponse(Call<List<BeerDto>> call, Response<List<BeerDto>> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
-                        beerListAdapter.submitBeers(response.body());
+                        beerDtos.addAll(response.body());
+                        beerListAdapter.submitBeers(beerDtos);
                     }
                 }
             }
@@ -105,16 +104,28 @@ public class BeerListActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.filter:
                 if (filterOn == 0) {
-                    Toast.makeText(this, "Sorted by " + filterBy.toUpperCase() +
-                            " and " + orderBy.toUpperCase() + ".", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this, "Sorted by " + filterBy.toUpperCase() +
+//                            " and " + orderBy.toUpperCase() + ".", Toast.LENGTH_SHORT).show();
 
-                    Collections.sort(beerDtos, new BeerDto.sortByName());
-
-                    beerListAdapter.notifyDataSetChanged();
+                    if (filterBy.matches("abv") && orderBy.matches("asc")) {
+                        beerListAdapter.submitBeers(returnSortedAbvAscList(beerDtos));
+                    }else if (filterBy.matches("ibu") && orderBy.matches("asc")) {
+                        beerListAdapter.submitBeers(returnSortedIbuAscList(beerDtos));
+                    }else if (filterBy.matches("ebc") && orderBy.matches("asc")) {
+                        beerListAdapter.submitBeers(returnSortedEbcAscList(beerDtos));
+                    }else if (filterBy.matches("abv") && orderBy.matches("desc")) {
+                        beerListAdapter.submitBeers(returnSortedAbvDescList(beerDtos));
+                    }else if (filterBy.matches("ibu") && orderBy.matches("desc")) {
+                        beerListAdapter.submitBeers(returnSortedIbuDescList(beerDtos));
+                    }else if (filterBy.matches("ebc") && orderBy.matches("desc")) {
+                        beerListAdapter.submitBeers(returnSortedEbcDescList(beerDtos));
+                    }
 
                     item.setIcon(R.drawable.ic_shopping_cart);
                     filterOn = 1;
                 } else {
+                    beerListAdapter.submitBeers(beerDtos);
+
                     item.setIcon(R.drawable.ic_sort);
                     filterOn = 0;
                 }
@@ -126,5 +137,41 @@ public class BeerListActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public static List<BeerDto> returnSortedAbvAscList(List<BeerDto> input) {
+        List<BeerDto> beerDto = new ArrayList<>(input);
+        Collections.sort(beerDto, new BeerDto.sortByAbvAsc());
+        return beerDto;
+    }
+
+    public static List<BeerDto> returnSortedIbuAscList(List<BeerDto> input) {
+        List<BeerDto> beerDto = new ArrayList<>(input);
+        Collections.sort(beerDto, new BeerDto.sortByIbuAsc());
+        return beerDto;
+    }
+
+    public static List<BeerDto> returnSortedEbcAscList(List<BeerDto> input) {
+        List<BeerDto> beerDto = new ArrayList<>(input);
+        Collections.sort(beerDto, new BeerDto.sortByEbcAsc());
+        return beerDto;
+    }
+
+    public static List<BeerDto> returnSortedAbvDescList(List<BeerDto> input) {
+        List<BeerDto> beerDto = new ArrayList<>(input);
+        Collections.sort(beerDto, new BeerDto.sortByAbvDesc());
+        return beerDto;
+    }
+
+    public static List<BeerDto> returnSortedIbuDescList(List<BeerDto> input) {
+        List<BeerDto> beerDto = new ArrayList<>(input);
+        Collections.sort(beerDto, new BeerDto.sortByIbuDesc());
+        return beerDto;
+    }
+
+    public static List<BeerDto> returnSortedEbcDescList(List<BeerDto> input) {
+        List<BeerDto> beerDto = new ArrayList<>(input);
+        Collections.sort(beerDto, new BeerDto.sortByEbcDesc());
+        return beerDto;
     }
 }

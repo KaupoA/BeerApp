@@ -47,18 +47,23 @@ public class BeerListAdapter extends RecyclerView.Adapter<BeerListAdapter.MyView
 
         Glide.with(holder.itemView).load(beerDtos.get(position).getImage_url()).into(holder.imageView);
         holder.imageName.setText(beerDtos.get(position).getName());
-        holder.beerAbv.setText(Double.toString((beerDtos.get(position).getAbv())));
+
+        if (beerDtos.get(position).getAbv() == null) {
+            holder.beerAbv.setText(Double.toString(0));
+        } else {
+            holder.beerAbv.setText("ABV: " + beerDtos.get(position).getAbv());
+        }
 
         if (beerDtos.get(position).getIbu() == null) {
             holder.beerIbu.setText(Double.toString(0));
         } else {
-            holder.beerIbu.setText(Double.toString((beerDtos.get(position).getIbu())));
+            holder.beerIbu.setText("IBU: " + beerDtos.get(position).getIbu());
         }
 
         if (beerDtos.get(position).getEbc() == null) {
             holder.beerEbc.setText(Double.toString(0));
         } else {
-            holder.beerEbc.setText(Double.toString((beerDtos.get(position).getEbc())));
+            holder.beerEbc.setText("EBC: " + beerDtos.get(position).getEbc());
         }
 
         if (position == beerDtos.size() - 1) {
@@ -79,7 +84,7 @@ public class BeerListAdapter extends RecyclerView.Adapter<BeerListAdapter.MyView
     }
 
     public void submitBeers(List<BeerDto> beerDtos) {
-        this.beerDtos.addAll(beerDtos);
+        this.beerDtos = beerDtos;
         notifyDataSetChanged();
     }
 

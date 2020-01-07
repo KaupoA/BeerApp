@@ -47,11 +47,99 @@ public class BeerDto {
         this.image_url = image_url;
     }
 
-    public static class sortByName implements Comparator<BeerDto> {
-
+    public static class sortByAbvAsc implements Comparator<BeerDto> {
         @Override
         public int compare(BeerDto o1, BeerDto o2) {
-            return o1.getName().compareTo(o2.getName());
+            Double abv1 = 0.0;
+            Double abv2 = 0.0;
+            if (o1.getAbv() != null) {
+                abv1 = o1.getAbv();
+            }
+
+            if (o2.getAbv() != null) {
+                abv2 = o2.getAbv();
+            }
+            return abv1.compareTo(abv2);
+        }
+    }
+
+    public static class sortByIbuAsc implements Comparator<BeerDto> {
+        @Override
+        public int compare(BeerDto o1, BeerDto o2) {
+            Double ibu1 = 0.0;
+            Double ibu2 = 0.0;
+            if (o1.getIbu() != null) {
+                ibu1 = o1.getIbu();
+            }
+
+            if (o2.getIbu() != null) {
+                ibu2 = o2.getIbu();
+            }
+            return ibu1.compareTo(ibu2);
+        }
+    }
+
+    public static class sortByEbcAsc implements Comparator<BeerDto> {
+        @Override
+        public int compare(BeerDto o1, BeerDto o2) {
+            Double ebc1 = 0.0;
+            Double ebc2 = 0.0;
+            if (o1.getEbc() != null) {
+                ebc1 = o1.getEbc();
+            }
+
+            if (o2.getEbc() != null) {
+                ebc2 = o2.getEbc();
+            }
+            return ebc1.compareTo(ebc2);
+        }
+    }
+
+    public static class sortByAbvDesc implements Comparator<BeerDto> {
+        @Override
+        public int compare(BeerDto o1, BeerDto o2) {
+            Double abv1 = 0.0;
+            Double abv2 = 0.0;
+            if (o1.getAbv() != null) {
+                abv1 = o1.getAbv();
+            }
+
+            if (o2.getAbv() != null) {
+                abv2 = o2.getAbv();
+            }
+            return abv2.compareTo(abv1);
+        }
+    }
+
+    public static class sortByIbuDesc implements Comparator<BeerDto> {
+        @Override
+        public int compare(BeerDto o1, BeerDto o2) {
+            Double ibu1 = 0.0;
+            Double ibu2 = 0.0;
+            if (o1.getIbu() != null) {
+                ibu1 = o1.getIbu();
+            }
+
+            if (o2.getEbc() != null) {
+                ibu2 = o2.getIbu();
+            }
+            return ibu2.compareTo(ibu1);
+        }
+    }
+
+    public static class sortByEbcDesc implements Comparator<BeerDto> {
+        @Override
+        public int compare(BeerDto o1, BeerDto o2) {
+            Double ebc1 = 0.0;
+            Double ebc2 = 0.0;
+            if (o1.getEbc() != null) {
+                ebc1 = o1.getEbc();
+            }
+
+            if (o2.getEbc() != null) {
+                ebc2 = o2.getEbc();
+            }
+            return ebc2.compareTo(ebc1);
         }
     }
 }
