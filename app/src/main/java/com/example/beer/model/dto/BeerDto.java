@@ -55,7 +55,6 @@ public class BeerDto {
             if (o1.getAbv() != null) {
                 abv1 = o1.getAbv();
             }
-
             if (o2.getAbv() != null) {
                 abv2 = o2.getAbv();
             }
@@ -71,7 +70,6 @@ public class BeerDto {
             if (o1.getIbu() != null) {
                 ibu1 = o1.getIbu();
             }
-
             if (o2.getIbu() != null) {
                 ibu2 = o2.getIbu();
             }
@@ -87,7 +85,6 @@ public class BeerDto {
             if (o1.getEbc() != null) {
                 ebc1 = o1.getEbc();
             }
-
             if (o2.getEbc() != null) {
                 ebc2 = o2.getEbc();
             }
@@ -103,7 +100,6 @@ public class BeerDto {
             if (o1.getAbv() != null) {
                 abv1 = o1.getAbv();
             }
-
             if (o2.getAbv() != null) {
                 abv2 = o2.getAbv();
             }
@@ -119,7 +115,6 @@ public class BeerDto {
             if (o1.getIbu() != null) {
                 ibu1 = o1.getIbu();
             }
-
             if (o2.getEbc() != null) {
                 ibu2 = o2.getIbu();
             }
@@ -135,7 +130,6 @@ public class BeerDto {
             if (o1.getEbc() != null) {
                 ebc1 = o1.getEbc();
             }
-
             if (o2.getEbc() != null) {
                 ebc2 = o2.getEbc();
             }

@@ -49,20 +49,23 @@ public class BeerListAdapter extends RecyclerView.Adapter<BeerListAdapter.MyView
         holder.imageName.setText(beerDtos.get(position).getName());
 
         if (beerDtos.get(position).getAbv() == null) {
-            holder.beerAbv.setText(Double.toString(0));
+            holder.beerAbv.setVisibility(View.GONE);
         } else {
+            holder.beerAbv.setVisibility(View.VISIBLE);
             holder.beerAbv.setText("ABV: " + beerDtos.get(position).getAbv());
         }
 
         if (beerDtos.get(position).getIbu() == null) {
-            holder.beerIbu.setText(Double.toString(0));
+            holder.beerIbu.setVisibility(View.GONE);
         } else {
+            holder.beerIbu.setVisibility(View.VISIBLE);
             holder.beerIbu.setText("IBU: " + beerDtos.get(position).getIbu());
         }
 
         if (beerDtos.get(position).getEbc() == null) {
-            holder.beerEbc.setText(Double.toString(0));
+            holder.beerEbc.setVisibility(View.GONE);
         } else {
+            holder.beerEbc.setVisibility(View.VISIBLE);
             holder.beerEbc.setText("EBC: " + beerDtos.get(position).getEbc());
         }
 
