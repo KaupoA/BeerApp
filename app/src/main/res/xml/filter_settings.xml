@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:defaultValue="@string/filter_settings_abv"
+        android:entries="@array/filter_settings_filter_by_values"
+        android:entryValues="@array/filter_settings_filter_by_key"
+        android:icon="@drawable/ic_shopping_cart"
+        android:summary="%s"
+        android:key="@string/shared_prefs_filter_settings_by"
+        android:title="@string/filter_settings_by" />
+
+    <ListPreference
+        android:defaultValue="@string/filter_settings_asc"
+        android:entries="@array/filter_settings_order_values"
+        android:entryValues="@array/filter_settings_order_key"
+        android:icon="@drawable/ic_gavel"
+        android:summary="%s"
+        android:key="@string/shared_prefs_filter_settings_order"
+        android:title="@string/filter_settings_order" />
+
+</PreferenceScreen>
