@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,13 +15,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import com.example.beer.R;
+import com.example.beer.beerdetails.BeerDetailsActivity;
 import com.example.beer.beerlist.widget.BeerListAdapter;
 import com.example.beer.filtersettings.FilterSettingsActivity;
+import com.example.beer.homework.BeerListActivityCallback;
 import com.example.beer.model.BeerRepository;
 import com.example.beer.model.BeerService;
 import com.example.beer.model.database.AppDatabase;
 import com.example.beer.model.database.BeerDao;
 import com.example.beer.model.dto.BeerDto;
+import com.facebook.stetho.Stetho;
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +46,7 @@ import static com.example.beer.utlis.SortUtils.returnSortedEbcDescList;
 import static com.example.beer.utlis.SortUtils.returnSortedIbuAscList;
 import static com.example.beer.utlis.SortUtils.returnSortedIbuDescList;
 
-public class BeerListActivity extends AppCompatActivity {
+public class BeerListActivity extends AppCompatActivity implements BeerListActivityCallback {
 
     private int pageNumber = 1;
     private int filterOn = 0;
@@ -56,9 +61,14 @@ public class BeerListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Stetho.initializeWithDefaults(this);
+
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(interceptor)
+                .addNetworkInterceptor(new StethoInterceptor())
+                .build();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client)
@@ -75,10 +85,11 @@ public class BeerListActivity extends AppCompatActivity {
         beerRepository = new BeerRepository(beerDao, beerService);
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view_retrofit);
-        beerListAdapter = new BeerListAdapter(this);
+        beerListAdapter = new BeerListAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager
                 (getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(beerListAdapter);
+        beerListAdapter.setBeerListActivityCallback(this);
 
         beerListAdapter.setOnBottomReachedListener(position -> {
             pageNumber++;
@@ -159,5 +170,19 @@ public class BeerListActivity extends AppCompatActivity {
     protected void onDestroy() {
         disposable.dispose();
         super.onDestroy();
+    }
+
+    @Override
+    public void navigateToBeerDetails(BeerDto beerDto) {
+        Intent beerIntent = new Intent(this, BeerDetailsActivity.class);
+        beerIntent.putExtra("beer_name", beerDto.getName());
+        startActivity(beerIntent);
+    }
+
+    @Override
+    public void passShit(String shitName, int howManyShits, int howBigShitis) {
+        Toast.makeText(this, shitName + " is "
+                + howBigShitis + "cm long and there's "
+                + howManyShits + " of them.", Toast.LENGTH_SHORT).show();
     }
 }

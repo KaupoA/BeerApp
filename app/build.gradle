@@ -48,4 +48,8 @@ dependencies {
     debugImplementation 'com.facebook.flipper:flipper:0.30.1'
     debugImplementation 'com.facebook.soloader:soloader:0.5.1'
     releaseImplementation 'com.facebook.flipper:flipper-noop:0.30.1'
+    implementation 'com.facebook.stetho:stetho:1.5.1'
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
+    implementation 'com.facebook.stetho:stetho-okhttp:1.5.1'
+    implementation 'com.facebook.stetho:stetho-urlconnection:1.5.1'
 }
