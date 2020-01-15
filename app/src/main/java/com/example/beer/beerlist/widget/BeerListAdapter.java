@@ -1,8 +1,6 @@
 package com.example.beer.beerlist.widget;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.beer.R;
-import com.example.beer.beerdetails.BeerDetailsActivity;
+import com.example.beer.homework.BeerListActivityCallback;
 import com.example.beer.model.dto.BeerDto;
 
 import java.util.ArrayList;
@@ -24,19 +22,14 @@ import java.util.List;
 public class BeerListAdapter extends RecyclerView.Adapter<BeerListAdapter.MyViewHolder> {
 
     private OnBottomReachedListener onBottomReachedListener;
-
+    private BeerListActivityCallback beerListActivityCallback;
     private List<BeerDto> beerDtos = new ArrayList<>();
-    private Context mContext;
-
-    public BeerListAdapter(Context context) {
-        mContext = context;
-    }
 
     @NonNull
     @Override
     public BeerListAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(mContext).inflate(R.layout.beer_list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.beer_list_item, parent, false);
 
         return new MyViewHolder(view);
     }
@@ -75,9 +68,12 @@ public class BeerListAdapter extends RecyclerView.Adapter<BeerListAdapter.MyView
 
         holder.beerListLayout.setOnClickListener(v -> {
 
-            Intent beerIntent = new Intent(mContext, BeerDetailsActivity.class);
-            beerIntent.putExtra("beer_name", beerDtos.get(position).getName());
-            mContext.startActivity(beerIntent);
+            beerListActivityCallback.navigateToBeerDetails(beerDtos.get(position));
+
+            String shitName = "Pruun pask";
+            int howManyShits = 2;
+            int howBigShitis = 7;
+            beerListActivityCallback.passShit(shitName, howManyShits, howBigShitis);
         });
     }
 
@@ -114,5 +110,9 @@ public class BeerListAdapter extends RecyclerView.Adapter<BeerListAdapter.MyView
 
     public void setOnBottomReachedListener(OnBottomReachedListener onBottomReachedListener) {
         this.onBottomReachedListener = onBottomReachedListener;
+    }
+
+    public void setBeerListActivityCallback(BeerListActivityCallback beerListActivityCallback) {
+        this.beerListActivityCallback = beerListActivityCallback;
     }
 }
