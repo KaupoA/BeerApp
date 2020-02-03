@@ -1,17 +1,27 @@
 package com.example.beer.model.dto;
 
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
+import com.example.beer.model.dto.ingredients.IngredientsDto;
 
 import java.util.Comparator;
+
+import androidx.room.Embedded;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
 @Entity
 public class BeerDto {
 
     @PrimaryKey
     private Integer id;
-    private String name, image_url;
+    private String name, image_url, tagline, description;
     private Double abv, ibu, ebc;
+
+    @Embedded
+    private BoilVolumeDto boil_volume;
+
+    @Ignore
+    private IngredientsDto ingredients;
 
     public Double getAbv() {
         return abv;
@@ -59,6 +69,38 @@ public class BeerDto {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getTagline() {
+        return tagline;
+    }
+
+    public void setTagline(String tagline) {
+        this.tagline = tagline;
+    }
+
+    public BoilVolumeDto getBoil_volume() {
+        return boil_volume;
+    }
+
+    public void setBoil_volume(BoilVolumeDto boil_volume) {
+        this.boil_volume = boil_volume;
+    }
+
+    public IngredientsDto getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(IngredientsDto ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public static class sortByAbvAsc implements Comparator<BeerDto> {
@@ -129,7 +171,7 @@ public class BeerDto {
             if (o1.getIbu() != null) {
                 ibu1 = o1.getIbu();
             }
-            if (o2.getEbc() != null) {
+            if (o2.getIbu() != null) {
                 ibu2 = o2.getIbu();
             }
             return ibu2.compareTo(ibu1);

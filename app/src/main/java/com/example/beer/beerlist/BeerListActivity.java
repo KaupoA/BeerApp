@@ -7,13 +7,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.PreferenceManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
-
 import com.example.beer.R;
 import com.example.beer.beerdetails.BeerDetailsActivity;
 import com.example.beer.beerlist.widget.BeerListAdapter;
@@ -30,6 +23,12 @@ import com.facebook.stetho.okhttp3.StethoInterceptor;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -123,28 +122,30 @@ public class BeerListActivity extends AppCompatActivity implements BeerListActiv
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String filterBy = sharedPreferences.getString(getString(R.string.shared_prefs_filter_settings_by), getString(R.string.filter_settings_abv));
-        String orderBy = sharedPreferences.getString(getString(R.string.shared_prefs_filter_settings_order), getString(R.string.filter_settings_asc));
+        String[] filterValues = getResources().getStringArray(R.array.filter_settings_filter_by_key);
+        String filterBy = sharedPreferences.getString(getString(R.string.shared_prefs_filter_settings_by), filterValues[0]);
+        String[] orderValues = getResources().getStringArray(R.array.filter_settings_order_key);
+        String orderBy = sharedPreferences.getString(getString(R.string.shared_prefs_filter_settings_order), orderValues[0]);
         switch (item.getItemId()) {
             case R.id.filter:
                 if (filterOn == 0) {
-                    if (filterBy.matches(getString(R.string.filter_settings_abv))
-                            && orderBy.matches(getString(R.string.filter_settings_asc))) {
+                    if (filterBy.matches(filterValues[0])
+                            && orderBy.matches(orderValues[0])) {
                         beerListAdapter.submitBeers(returnSortedAbvAscList(beerDtos));
-                    } else if (filterBy.matches(getString(R.string.filter_settings_ibu))
-                            && orderBy.matches(getString(R.string.filter_settings_asc))) {
+                    } else if (filterBy.matches(filterValues[1])
+                            && orderBy.matches(orderValues[0])) {
                         beerListAdapter.submitBeers(returnSortedIbuAscList(beerDtos));
-                    } else if (filterBy.matches(getString(R.string.filter_settings_ebc))
-                            && orderBy.matches(getString(R.string.filter_settings_asc))) {
+                    } else if (filterBy.matches(filterValues[2])
+                            && orderBy.matches(orderValues[0])) {
                         beerListAdapter.submitBeers(returnSortedEbcAscList(beerDtos));
-                    } else if (filterBy.matches(getString(R.string.filter_settings_abv))
-                            && orderBy.matches(getString(R.string.filter_settings_desc))) {
+                    } else if (filterBy.matches(filterValues[0])
+                            && orderBy.matches(orderValues[1])) {
                         beerListAdapter.submitBeers(returnSortedAbvDescList(beerDtos));
-                    } else if (filterBy.matches(getString(R.string.filter_settings_ibu))
-                            && orderBy.matches(getString(R.string.filter_settings_desc))) {
+                    } else if (filterBy.matches(filterValues[1])
+                            && orderBy.matches(orderValues[1])) {
                         beerListAdapter.submitBeers(returnSortedIbuDescList(beerDtos));
-                    } else if (filterBy.matches(getString(R.string.filter_settings_ebc))
-                            && orderBy.matches(getString(R.string.filter_settings_desc))) {
+                    } else if (filterBy.matches(filterValues[2])
+                            && orderBy.matches(orderValues[1])) {
                         beerListAdapter.submitBeers(returnSortedEbcDescList(beerDtos));
                     }
 
@@ -175,7 +176,15 @@ public class BeerListActivity extends AppCompatActivity implements BeerListActiv
     @Override
     public void navigateToBeerDetails(BeerDto beerDto) {
         Intent beerIntent = new Intent(this, BeerDetailsActivity.class);
+        beerIntent.putExtra("beer_image", beerDto.getImage_url());
         beerIntent.putExtra("beer_name", beerDto.getName());
+        beerIntent.putExtra("beer_tagline", beerDto.getTagline());
+        beerIntent.putExtra("beer_abv", beerDto.getAbv());
+        beerIntent.putExtra("beer_ibu", beerDto.getIbu());
+        beerIntent.putExtra("beer_ebc", beerDto.getEbc());
+        beerIntent.putExtra("beer_boil_volume_value", beerDto.getBoil_volume().getValue());
+        beerIntent.putExtra("beer_boil_volume_unit", beerDto.getBoil_volume().getUnit());
+        beerIntent.putExtra("beer_description", beerDto.getDescription());
         startActivity(beerIntent);
     }
 

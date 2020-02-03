@@ -1,11 +1,11 @@
 package com.example.beer.filtersettings;
-import android.app.ActionBar;
+
 import android.os.Bundle;
+
+import com.example.beer.R;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.beer.R;
 
 public class FilterSettingsActivity extends AppCompatActivity {
     @Override
