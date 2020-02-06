@@ -1,6 +1,7 @@
 package com.example.beer.model.dto;
 
-import com.example.beer.model.dto.ingredients.IngredientsDto;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.util.Comparator;
 
@@ -10,7 +11,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class BeerDto {
+public class BeerDto implements Parcelable {
 
     @PrimaryKey
     private Integer id;
@@ -22,6 +23,75 @@ public class BeerDto {
 
     @Ignore
     private IngredientsDto ingredients;
+
+    public BeerDto(Integer id, String name, String image_url, String tagline, String description,
+                   Double abv, Double ibu, Double ebc, BoilVolumeDto boil_volume,
+                   IngredientsDto ingredients) {
+        this.id = id;
+        this.name = name;
+        this.image_url = image_url;
+        this.tagline = tagline;
+        this.description = description;
+        this.abv = abv;
+        this.ibu = ibu;
+        this.ebc = ebc;
+        this.boil_volume = boil_volume;
+        this.ingredients = ingredients;
+    }
+
+    public BeerDto(Integer id, String name, String image_url, String tagline, String description,
+                   Double abv, Double ibu, Double ebc, BoilVolumeDto boil_volume) {
+        this.id = id;
+        this.name = name;
+        this.image_url = image_url;
+        this.tagline = tagline;
+        this.description = description;
+        this.abv = abv;
+        this.ibu = ibu;
+        this.ebc = ebc;
+        this.boil_volume = boil_volume;
+    }
+
+    protected BeerDto(Parcel in) {
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readInt();
+        }
+        name = in.readString();
+        image_url = in.readString();
+        tagline = in.readString();
+        description = in.readString();
+        if (in.readByte() == 0) {
+            abv = null;
+        } else {
+            abv = in.readDouble();
+        }
+        if (in.readByte() == 0) {
+            ibu = null;
+        } else {
+            ibu = in.readDouble();
+        }
+        if (in.readByte() == 0) {
+            ebc = null;
+        } else {
+            ebc = in.readDouble();
+        }
+        boil_volume = in.readParcelable(BoilVolumeDto.class.getClassLoader());
+        ingredients = in.readParcelable(IngredientsDto.class.getClassLoader());
+    }
+
+    public static final Creator<BeerDto> CREATOR = new Creator<BeerDto>() {
+        @Override
+        public BeerDto createFromParcel(Parcel in) {
+            return new BeerDto(in);
+        }
+
+        @Override
+        public BeerDto[] newArray(int size) {
+            return new BeerDto[size];
+        }
+    };
 
     public Double getAbv() {
         return abv;
@@ -101,6 +171,45 @@ public class BeerDto {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(id);
+        }
+        dest.writeString(name);
+        dest.writeString(image_url);
+        dest.writeString(tagline);
+        dest.writeString(description);
+        if (abv == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeDouble(abv);
+        }
+        if (ibu == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeDouble(ibu);
+        }
+        if (ebc == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeDouble(ebc);
+        }
+        dest.writeParcelable(boil_volume, flags);
+        dest.writeParcelable(ingredients, flags);
     }
 
     public static class sortByAbvAsc implements Comparator<BeerDto> {

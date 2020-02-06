@@ -176,15 +176,7 @@ public class BeerListActivity extends AppCompatActivity implements BeerListActiv
     @Override
     public void navigateToBeerDetails(BeerDto beerDto) {
         Intent beerIntent = new Intent(this, BeerDetailsActivity.class);
-        beerIntent.putExtra("beer_image", beerDto.getImage_url());
-        beerIntent.putExtra("beer_name", beerDto.getName());
-        beerIntent.putExtra("beer_tagline", beerDto.getTagline());
-        beerIntent.putExtra("beer_abv", beerDto.getAbv());
-        beerIntent.putExtra("beer_ibu", beerDto.getIbu());
-        beerIntent.putExtra("beer_ebc", beerDto.getEbc());
-        beerIntent.putExtra("beer_boil_volume_value", beerDto.getBoil_volume().getValue());
-        beerIntent.putExtra("beer_boil_volume_unit", beerDto.getBoil_volume().getUnit());
-        beerIntent.putExtra("beer_description", beerDto.getDescription());
+        beerIntent.putExtra("beer", beerDto);
         startActivity(beerIntent);
     }
 

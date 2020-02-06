@@ -1,7 +1,5 @@
 package com.example.beer.model.dto;
 
-import com.example.beer.model.dto.ingredients.malt.MaltDto;
-
 import java.util.List;
 
 import androidx.room.Embedded;
@@ -14,4 +12,7 @@ public class BeerData {
 
     @Relation(parentColumn = "id", entityColumn = "beerId", entity = MaltDto.class)
     public List<MaltDto> maltDtos;
+
+    @Relation(parentColumn = "id", entityColumn = "beerId", entity = HopsDto.class)
+    public List<HopsDto> hopsDtos;
 }

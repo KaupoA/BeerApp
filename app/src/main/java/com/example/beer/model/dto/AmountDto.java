@@ -3,42 +3,42 @@ package com.example.beer.model.dto;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class BoilVolumeDto implements Parcelable {
+public class AmountDto implements Parcelable {
 
-    private Integer value;
+    private Double value;
     private String unit;
 
-    public BoilVolumeDto(Integer value, String unit) {
+    public AmountDto (Double value, String unit) {
         this.value = value;
         this.unit = unit;
     }
 
-    private BoilVolumeDto(Parcel in) {
+    private AmountDto(Parcel in) {
         if (in.readByte() == 0) {
             value = null;
         } else {
-            value = in.readInt();
+            value = in.readDouble();
         }
         unit = in.readString();
     }
 
-    public static final Creator<BoilVolumeDto> CREATOR = new Creator<BoilVolumeDto>() {
+    public static final Creator<AmountDto> CREATOR = new Creator<AmountDto>() {
         @Override
-        public BoilVolumeDto createFromParcel(Parcel in) {
-            return new BoilVolumeDto(in);
+        public AmountDto createFromParcel(Parcel in) {
+            return new AmountDto(in);
         }
 
         @Override
-        public BoilVolumeDto[] newArray(int size) {
-            return new BoilVolumeDto[size];
+        public AmountDto[] newArray(int size) {
+            return new AmountDto[size];
         }
     };
 
-    public Integer getValue() {
+    public Double getValue() {
         return value;
     }
 
-    public void setValue(Integer value) {
+    public void setValue(Double value) {
         this.value = value;
     }
 
@@ -61,7 +61,7 @@ public class BoilVolumeDto implements Parcelable {
             dest.writeByte((byte) 0);
         } else {
             dest.writeByte((byte) 1);
-            dest.writeInt(value);
+            dest.writeDouble(value);
         }
         dest.writeString(unit);
     }
