@@ -14,6 +14,8 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
+import androidx.room.Update;
+
 import io.reactivex.Observable;
 
 @Dao
@@ -22,26 +24,29 @@ public abstract class BeerDao {
 
     @Transaction
     public void replaceBeers(List<BeerDto> beerDtos) {
+        List<Integer> favouritesIds = getFavouriteIds();
         delete(beerDtos);
-        insert(beerDtos);
+        insert(beerDtos, favouritesIds);
     }
 
-    private void insert(List<BeerDto> beerDtos){
-        for(BeerDto beerDto : beerDtos){
+    private void insert(List<BeerDto> beerDtos, List<Integer> favouritesIds) {
+        for (BeerDto beerDto : beerDtos) {
+            Boolean isFav = favouritesIds != null && favouritesIds.contains(beerDto.getId());
+            beerDto.setFavourite(isFav);
             insertBeer(beerDto);
-            for(MaltDto maltDto : beerDto.getIngredients().getMalt()){
+            for (MaltDto maltDto : beerDto.getIngredients().getMalt()) {
                 maltDto.setBeerId(beerDto.getId());
                 insertMaltDto(maltDto);
             }
-            for(HopsDto hopsDto : beerDto.getIngredients().getHops()) {
+            for (HopsDto hopsDto : beerDto.getIngredients().getHops()) {
                 hopsDto.setBeerId(beerDto.getId());
                 insertHopsDto(hopsDto);
             }
         }
     }
 
-    private void delete(List<BeerDto> beerDtos){
-        for(BeerDto beerDto : beerDtos){
+    private void delete(List<BeerDto> beerDtos) {
+        for (BeerDto beerDto : beerDtos) {
             deleteBeerDto(beerDto.getId());
             deleteMaltDto(beerDto.getId());
             deleteHopsDto(beerDto.getId());
@@ -63,21 +68,27 @@ public abstract class BeerDao {
     @Query("DELETE FROM MaltDto WHERE beerId=:beerId")
     protected abstract void deleteMaltDto(int beerId);
 
-
     @Query("DELETE FROM HopsDto WHERE beerId=:beerId")
     protected abstract void deleteHopsDto(int beerId);
 
-    public Observable<List<BeerDto>> get(){
+    @Query("SELECT id FROM BeerDto WHERE favourite=1")
+    protected abstract List<Integer> getFavouriteIds();
+
+    @Update
+    public abstract void updateBeer(BeerDto beerDto);
+
+    public Observable<List<BeerDto>> get() {
         return loadBeerData().map(beerDatas -> transformDataToBeers(beerDatas));
     }
+
     @Transaction
     @Query("SELECT * FROM beerdto")
     abstract Observable<List<BeerData>> loadBeerData();
 
-    List<BeerDto> transformDataToBeers(List<BeerData> beerDatas){
+    List<BeerDto> transformDataToBeers(List<BeerData> beerDatas) {
         List<BeerDto> beerDtos = new ArrayList<>();
 
-        for(BeerData beerData : beerDatas) {
+        for (BeerData beerData : beerDatas) {
             BeerDto beerDto = beerData.beerDto;
             IngredientsDto ingredientsDto = new IngredientsDto();
             ingredientsDto.setMalt(beerData.maltDtos);

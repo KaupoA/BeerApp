@@ -3,12 +3,12 @@ package com.example.beer.model.dto;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Comparator;
-
 import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+
+import java.util.Comparator;
 
 @Entity
 public class BeerDto implements Parcelable {
@@ -17,6 +17,7 @@ public class BeerDto implements Parcelable {
     private Integer id;
     private String name, image_url, tagline, description;
     private Double abv, ibu, ebc;
+    private Boolean favourite;
 
     @Embedded
     private BoilVolumeDto boil_volume;
@@ -26,7 +27,7 @@ public class BeerDto implements Parcelable {
 
     public BeerDto(Integer id, String name, String image_url, String tagline, String description,
                    Double abv, Double ibu, Double ebc, BoilVolumeDto boil_volume,
-                   IngredientsDto ingredients) {
+                   IngredientsDto ingredients, Boolean favourite) {
         this.id = id;
         this.name = name;
         this.image_url = image_url;
@@ -37,10 +38,11 @@ public class BeerDto implements Parcelable {
         this.ebc = ebc;
         this.boil_volume = boil_volume;
         this.ingredients = ingredients;
+        this.favourite = favourite;
     }
 
     public BeerDto(Integer id, String name, String image_url, String tagline, String description,
-                   Double abv, Double ibu, Double ebc, BoilVolumeDto boil_volume) {
+                   Double abv, Double ibu, Double ebc, BoilVolumeDto boil_volume, Boolean favourite) {
         this.id = id;
         this.name = name;
         this.image_url = image_url;
@@ -50,6 +52,7 @@ public class BeerDto implements Parcelable {
         this.ibu = ibu;
         this.ebc = ebc;
         this.boil_volume = boil_volume;
+        this.favourite = favourite;
     }
 
     protected BeerDto(Parcel in) {
@@ -77,6 +80,8 @@ public class BeerDto implements Parcelable {
         } else {
             ebc = in.readDouble();
         }
+        byte tmpFavourite = in.readByte();
+        favourite = tmpFavourite == 0 ? null : tmpFavourite == 1;
         boil_volume = in.readParcelable(BoilVolumeDto.class.getClassLoader());
         ingredients = in.readParcelable(IngredientsDto.class.getClassLoader());
     }
@@ -173,6 +178,14 @@ public class BeerDto implements Parcelable {
         this.description = description;
     }
 
+    public Boolean getFavourite() {
+        return favourite;
+    }
+
+    public void setFavourite(Boolean favourite) {
+        this.favourite = favourite;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -208,6 +221,7 @@ public class BeerDto implements Parcelable {
             dest.writeByte((byte) 1);
             dest.writeDouble(ebc);
         }
+        dest.writeByte((byte) (favourite == null ? 0 : favourite ? 1 : 2));
         dest.writeParcelable(boil_volume, flags);
         dest.writeParcelable(ingredients, flags);
     }

@@ -29,6 +29,8 @@ import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
+
+import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -178,6 +180,15 @@ public class BeerListActivity extends AppCompatActivity implements BeerListActiv
         Intent beerIntent = new Intent(this, BeerDetailsActivity.class);
         beerIntent.putExtra("beer", beerDto);
         startActivity(beerIntent);
+    }
+
+    @Override
+    public void favouriteButtonClicked(BeerDto beerDto) {
+        Completable.fromAction(() -> beerRepository.changeFavourite(beerDto))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .onErrorComplete()
+                .subscribe();
     }
 
     @Override

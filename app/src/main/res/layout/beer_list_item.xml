@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/beer_list_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:ignore="UselessParent"
-    android:id="@+id/beer_list_layout">
+    tools:ignore="UselessParent">
 
     <ImageView
         android:id="@+id/beer_image"
@@ -15,6 +15,14 @@
         android:contentDescription="@string/beer_list_image_description"
         android:scaleType="fitCenter"
         android:src="@mipmap/ic_launcher" />
+
+    <ImageButton
+        android:id="@+id/favouriteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/beer_name"
+        android:layout_toEndOf="@+id/beer_image"
+        android:src="@drawable/favourite_drawable_state" />
 
     <TextView
         android:id="@+id/beer_name"

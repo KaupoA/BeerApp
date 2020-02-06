@@ -19,7 +19,7 @@ public class BeerRepository {
     }
 
     private Completable insertBeers(List<BeerDto> beerDtos) {
-        return Completable.fromAction(() -> {beerDao.replaceBeers(beerDtos);});
+        return Completable.fromAction(() -> beerDao.replaceBeers(beerDtos));
     }
 
     public Completable refresh(int pageNumber) {
@@ -29,5 +29,10 @@ public class BeerRepository {
 
     public Observable<List<BeerDto>> get() {
         return beerDao.get();
+    }
+
+    public void changeFavourite(BeerDto beerDto) {
+        beerDto.setFavourite(!beerDto.getFavourite());
+        beerDao.updateBeer(beerDto);
     }
 }
