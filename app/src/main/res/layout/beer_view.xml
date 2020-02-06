@@ -108,21 +108,31 @@
             android:textColor="#000"
             tools:text="Unit: litres" />
 
-        <LinearLayout
-            android:id="@+id/beer_list_ingridients_layout"
+        <TextView
+            android:id="@+id/beer_list_ingridients_hops_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/beer_list_boil_volume_unit">
+            android:layout_below="@id/beer_list_boil_volume_unit"
+            android:layout_centerHorizontal="true">
 
-        </LinearLayout>
+        </TextView>
+
+        <TextView
+            android:id="@+id/beer_list_ingridients_malt_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@id/beer_list_ingridients_hops_textview"
+            android:layout_centerHorizontal="true">
+
+        </TextView>
 
         <TextView
             android:id="@+id/beer_list_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/beer_list_ingridients_layout"
+            android:layout_below="@+id/beer_list_ingridients_malt_textview"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:textColor="#000"

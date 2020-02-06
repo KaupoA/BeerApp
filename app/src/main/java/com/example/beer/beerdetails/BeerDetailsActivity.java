@@ -3,19 +3,22 @@ package com.example.beer.beerdetails;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.beer.R;
 import com.example.beer.model.dto.BeerDto;
+import com.example.beer.model.dto.HopsDto;
+import com.example.beer.model.dto.MaltDto;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.List;
+
 public class BeerDetailsActivity extends AppCompatActivity {
 
-    public String beerImage, beerName, beerTagline, beerBoilVolumeUnit, beerDescription, maltName;
+    public String beerImage, beerName, beerTagline, beerBoilVolumeUnit, beerDescription;
     public Double beerAbv, beerIbu, beerEbc;
     public Integer beerBoilVolumeValue;
 
@@ -24,20 +27,23 @@ public class BeerDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.beer_view);
 
-        getMaltName();
-
         Intent intent = getIntent();
         BeerDto beerDto = intent.getParcelableExtra("beer");
 
-        beerImage = beerDto.getImage_url();
-        beerName = beerDto.getName();
-        beerTagline = beerDto.getTagline();
-        beerAbv = beerDto.getAbv();
-        beerIbu = beerDto.getIbu();
-        beerEbc = beerDto.getEbc();
-        beerBoilVolumeValue = beerDto.getBoil_volume().getValue();
-        beerBoilVolumeUnit = beerDto.getBoil_volume().getUnit();
-        beerDescription = beerDto.getDescription();
+        if (beerDto != null) {
+            setHops(beerDto.getIngredients().getHops());
+            setMalt(beerDto.getIngredients().getMalt());
+
+            beerImage = beerDto.getImage_url();
+            beerName = beerDto.getName();
+            beerTagline = beerDto.getTagline();
+            beerAbv = beerDto.getAbv();
+            beerIbu = beerDto.getIbu();
+            beerEbc = beerDto.getEbc();
+            beerBoilVolumeValue = beerDto.getBoil_volume().getValue();
+            beerBoilVolumeUnit = beerDto.getBoil_volume().getUnit();
+            beerDescription = beerDto.getDescription();
+        }
 
         ImageView image = findViewById(R.id.beer_list_image);
         Glide.with(this).load(beerImage).into(image);
@@ -58,7 +64,7 @@ public class BeerDetailsActivity extends AppCompatActivity {
         ebc.setText("EBC: " + beerEbc);
 
         TextView boilVolumeValue = findViewById(R.id.beer_list_boil_volume_value);
-        boilVolumeValue.setText("Value: " +beerBoilVolumeValue);
+        boilVolumeValue.setText("Value: " + beerBoilVolumeValue);
 
         TextView boilVolumeUnit = findViewById(R.id.beer_list_boil_volume_unit);
         boilVolumeUnit.setText("Unit: " + beerBoilVolumeUnit);
@@ -67,22 +73,41 @@ public class BeerDetailsActivity extends AppCompatActivity {
         description.setText(beerDescription);
     }
 
-    private void getMaltName() {
+    private void setMalt(List<MaltDto> maltList) {
 
-        LinearLayout maltLayout = findViewById(R.id.beer_list_ingridients_layout);
+        TextView maltName = findViewById(R.id.beer_list_ingridients_malt_textview);
+        String allMalt = "";
 
-        Intent intent = getIntent();
-        BeerDto beerDto = intent.getParcelableExtra("beer");
+        for (int i = 0; i < maltList.size(); i++) {
+            MaltDto malt = maltList.get(i);
+            allMalt += malt.getName() + " ";
+            allMalt += malt.getAmount().getValue().toString() + " ";
+            allMalt += malt.getAmount().getUnit();
 
-        maltName = beerDto.getIngredients().getHops().get(0).getName();
+            if (i != maltList.size() - 1) {
+                allMalt += ", ";
+            }
 
-        for(int i = 0; i < beerDto.getIngredients().getHops().size(); i++) {
+            maltName.setText(allMalt);
+        }
+    }
 
-            String name = beerDto.getIngredients().getHops().get(i).getName();
-            TextView nameView = new TextView(this);
-            nameView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-            nameView.setText(name);
-            maltLayout.addView(nameView);
+    private void setHops(List<HopsDto> hopsList) {
+
+        TextView hopsName = findViewById(R.id.beer_list_ingridients_hops_textview);
+        String allHops = "";
+
+        for (int i = 0; i < hopsList.size(); i++) {
+            HopsDto hops = hopsList.get(i);
+            allHops += hops.getName() + " ";
+            allHops += hops.getAmount().getValue().toString() + " ";
+            allHops += hops.getAmount().getUnit();
+
+            if (i != hopsList.size() - 1) {
+                allHops += ", ";
+            }
+
+            hopsName.setText(allHops);
         }
     }
 }

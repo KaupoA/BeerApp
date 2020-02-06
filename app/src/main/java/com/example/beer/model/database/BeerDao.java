@@ -17,24 +17,34 @@ import androidx.room.Transaction;
 import io.reactivex.Observable;
 
 @Dao
+
 public abstract class BeerDao {
 
     @Transaction
-    public void insert(List<BeerDto> beerDtos){
+    public void replaceBeers(List<BeerDto> beerDtos) {
+        delete(beerDtos);
+        insert(beerDtos);
+    }
+
+    private void insert(List<BeerDto> beerDtos){
         for(BeerDto beerDto : beerDtos){
             insertBeer(beerDto);
             for(MaltDto maltDto : beerDto.getIngredients().getMalt()){
                 maltDto.setBeerId(beerDto.getId());
                 insertMaltDto(maltDto);
             }
-        }
-
-        for(BeerDto beerDto : beerDtos) {
-            insertBeer(beerDto);
             for(HopsDto hopsDto : beerDto.getIngredients().getHops()) {
                 hopsDto.setBeerId(beerDto.getId());
                 insertHopsDto(hopsDto);
             }
+        }
+    }
+
+    private void delete(List<BeerDto> beerDtos){
+        for(BeerDto beerDto : beerDtos){
+            deleteBeerDto(beerDto.getId());
+            deleteMaltDto(beerDto.getId());
+            deleteHopsDto(beerDto.getId());
         }
     }
 
@@ -46,6 +56,16 @@ public abstract class BeerDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     protected abstract void insertHopsDto(HopsDto hopsDto);
+
+    @Query("DELETE FROM BeerDto WHERE id=:id")
+    protected abstract void deleteBeerDto(int id);
+
+    @Query("DELETE FROM MaltDto WHERE beerId=:beerId")
+    protected abstract void deleteMaltDto(int beerId);
+
+
+    @Query("DELETE FROM HopsDto WHERE beerId=:beerId")
+    protected abstract void deleteHopsDto(int beerId);
 
     public Observable<List<BeerDto>> get(){
         return loadBeerData().map(beerDatas -> transformDataToBeers(beerDatas));
@@ -61,13 +81,6 @@ public abstract class BeerDao {
             BeerDto beerDto = beerData.beerDto;
             IngredientsDto ingredientsDto = new IngredientsDto();
             ingredientsDto.setMalt(beerData.maltDtos);
-            beerDto.setIngredients(ingredientsDto);
-            beerDtos.add(beerDto);
-        }
-
-        for(BeerData beerData : beerDatas) {
-            BeerDto beerDto = beerData.beerDto;
-            IngredientsDto ingredientsDto = new IngredientsDto();
             ingredientsDto.setHops(beerData.hopsDtos);
             beerDto.setIngredients(ingredientsDto);
             beerDtos.add(beerDto);

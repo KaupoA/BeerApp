@@ -18,8 +18,8 @@ public class BeerRepository {
         this.beerService = beerService;
     }
 
-    public Completable insertBeers(List<BeerDto> beerDtos) {
-        return Completable.fromAction(() -> {beerDao.insert(beerDtos);});
+    private Completable insertBeers(List<BeerDto> beerDtos) {
+        return Completable.fromAction(() -> {beerDao.replaceBeers(beerDtos);});
     }
 
     public Completable refresh(int pageNumber) {
