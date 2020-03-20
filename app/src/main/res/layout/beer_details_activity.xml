@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/startGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="16dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/topGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="8dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/endGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="16dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/bottomGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="16dp" />
+
+        <ImageView
+            android:id="@+id/beer_list_image"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintEnd_toEndOf="@id/endGuideline"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintTop_toTopOf="@id/topGuideline"
+            tools:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/beer_list_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:textColor="#000"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="@id/endGuideline"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintTop_toBottomOf="@id/beer_list_image"
+            tools:text="Buzz" />
+
+        <TextView
+            android:id="@+id/beer_list_tagline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="8dp"
+            android:textColor="#000"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="@id/endGuideline"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintTop_toBottomOf="@id/beer_list_name"
+            tools:text="A Real Bitter Experience." />
+
+        <TextView
+            android:id="@+id/beer_list_abv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:textColor="#000"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toStartOf="@id/beer_list_ibu"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintTop_toBottomOf="@id/beer_list_tagline"
+            tools:text="ABV: 1350.0" />
+
+        <TextView
+            android:id="@+id/beer_list_ibu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:textColor="#000"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toStartOf="@id/beer_list_ebc"
+            app:layout_constraintStart_toEndOf="@id/beer_list_abv"
+            app:layout_constraintTop_toBottomOf="@id/beer_list_tagline"
+            tools:text="IBU: 2500.0" />
+
+        <TextView
+            android:id="@+id/beer_list_ebc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="@id/endGuideline"
+            app:layout_constraintStart_toEndOf="@id/beer_list_ibu"
+            app:layout_constraintTop_toBottomOf="@id/beer_list_tagline"
+            tools:text="EBC: 4257.3" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/beerDataBottomBarrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="beer_list_ebc,beer_list_ibu,beer_list_abv" />
+
+        <TextView
+            android:id="@+id/beer_list_boil_volume"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:text="Boil volume:"
+            android:textColor="#000"
+            app:layout_constraintTop_toBottomOf="@id/beerDataBottomBarrier"
+            app:layout_constraintEnd_toEndOf="@id/endGuideline"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/beer_list_boil_volume_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            app:layout_constraintEnd_toEndOf="@id/endGuideline"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintTop_toBottomOf="@+id/beer_list_boil_volume"
+            tools:text="Value: 25" />
+
+        <TextView
+            android:id="@+id/beer_list_ingridients_hops_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/beer_list_boil_volume_value"
+            app:layout_constraintTop_toBottomOf="@id/beer_list_boil_volume_value"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintEnd_toEndOf="@id/endGuideline"/>
+
+        <TextView
+            android:id="@+id/beer_list_ingridients_malt_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/beer_list_ingridients_hops_textview"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintEnd_toEndOf="@id/endGuideline"
+            />
+
+        <TextView
+            android:id="@+id/beer_list_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textColor="#000"
+            app:layout_constraintTop_toBottomOf="@id/beer_list_ingridients_malt_textview"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintEnd_toEndOf="@id/endGuideline"
+            app:layout_constraintBottom_toBottomOf="@id/bottomGuideline"
+            android:textSize="17sp"
+            tools:text="A light, crisp and bitter IPA brewed with English and American hops. A small batch brewed only once." />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

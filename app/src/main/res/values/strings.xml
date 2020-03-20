@@ -13,4 +13,9 @@
     <string name="filter_settings_asc">Ascending</string>
     <string name="filter_settings_desc">Descending</string>
 
+    <string name="beer_details_abv">ABV: %1$d</string>
+    <string name="beer_details_ibu">IBU: %1$d</string>
+    <string name="beer_details_ebc">EBC: %1$d</string>
+    <string name="beer_details_boil_volume">%1$d %2$s</string>
+
 </resources>

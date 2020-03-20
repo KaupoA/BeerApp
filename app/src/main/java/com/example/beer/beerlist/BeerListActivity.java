@@ -193,8 +193,8 @@ public class BeerListActivity extends AppCompatActivity implements BeerListActiv
 
     @Override
     public void passShit(String shitName, int howManyShits, int howBigShitis) {
-        Toast.makeText(this, shitName + " is "
-                + howBigShitis + "cm long and there's "
-                + howManyShits + " of them.", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, shitName + " is "
+//                + howBigShitis + "cm long and there's "
+//                + howManyShits + " of them.", Toast.LENGTH_SHORT).show();
     }
 }
