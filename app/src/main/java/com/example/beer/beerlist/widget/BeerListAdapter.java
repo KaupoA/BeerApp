@@ -102,7 +102,7 @@ public class BeerListAdapter extends RecyclerView.Adapter<BeerListAdapter.MyView
         TextView beerEbc;
         ImageView imageView;
         RelativeLayout beerListLayout;
-        ImageButton favouriteButton;
+        ImageView favouriteButton;
 
         MyViewHolder(@NonNull View itemView) {
             super(itemView);
