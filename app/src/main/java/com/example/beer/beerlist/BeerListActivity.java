@@ -41,6 +41,7 @@ public class BeerListActivity extends AppCompatActivity implements BeerListActiv
 
     private int pageNumber = 1;
     private int filterOn = 0;
+    private boolean favouriteFilter = false;
     private BeerListAdapter beerListAdapter;
     private List<BeerDto> beerDtos = new ArrayList<>();
     private BeerRepository beerRepository;
@@ -69,13 +70,7 @@ public class BeerListActivity extends AppCompatActivity implements BeerListActiv
         });
         fetchJSON();
 
-        disposable = beerRepository.get()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(beerDtos1 -> {
-                    beerDtos = beerDtos1;
-                    beerListAdapter.submitBeers(beerDtos);
-                });
+        getBeersFromDb();
     }
 
     private void fetchJSON() {
@@ -135,6 +130,14 @@ public class BeerListActivity extends AppCompatActivity implements BeerListActiv
                 Intent settingsIntent = new Intent(this, FilterSettingsActivity.class);
                 startActivity(settingsIntent);
                 return true;
+            case R.id.favourite:
+                if (!favouriteFilter) {
+                    item.setIcon(R.drawable.ic_favorite);
+                } else {
+                    item.setIcon(R.drawable.ic_unfavorite);
+                }
+                favouriteFilter = !favouriteFilter;
+                getBeersFromDb();
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -167,5 +170,25 @@ public class BeerListActivity extends AppCompatActivity implements BeerListActiv
 //        Toast.makeText(this, shitName + " is "
 //                + howBigShitis + "cm long and there's "
 //                + howManyShits + " of them.", Toast.LENGTH_SHORT).show();
+    }
+
+    public void getBeersFromDb() {
+        disposable = beerRepository.get()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(newBeerDtosFromDb -> {
+                    if (favouriteFilter) {
+                        List<BeerDto> filteredBeers = new ArrayList<>();
+                        for (BeerDto beerDto : newBeerDtosFromDb) {
+                            if (beerDto.getFavourite()) {
+                                filteredBeers.add(beerDto);
+                            }
+                        }
+                        beerDtos = filteredBeers;
+                    } else {
+                        beerDtos = newBeerDtosFromDb;
+                    }
+                    beerListAdapter.submitBeers(beerDtos);
+                });
     }
 }
