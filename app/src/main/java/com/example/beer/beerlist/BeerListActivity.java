@@ -5,40 +5,30 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
-
-import com.example.beer.R;
-import com.example.beer.beerdetails.BeerDetailsActivity;
-import com.example.beer.beerlist.widget.BeerListAdapter;
-import com.example.beer.filtersettings.FilterSettingsActivity;
-import com.example.beer.homework.BeerListActivityCallback;
-import com.example.beer.model.BeerRepository;
-import com.example.beer.model.BeerService;
-import com.example.beer.model.database.AppDatabase;
-import com.example.beer.model.database.BeerDao;
-import com.example.beer.model.dto.BeerDto;
-import com.facebook.stetho.Stetho;
-import com.facebook.stetho.okhttp3.StethoInterceptor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
+
+import com.example.beer.App;
+import com.example.beer.R;
+import com.example.beer.beerdetails.BeerDetailsActivity;
+import com.example.beer.beerlist.widget.BeerListAdapter;
+import com.example.beer.filtersettings.FilterSettingsActivity;
+import com.example.beer.homework.BeerListActivityCallback;
+import com.example.beer.model.BeerRepository;
+import com.example.beer.model.dto.BeerDto;
+import com.facebook.stetho.Stetho;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.moshi.MoshiConverterFactory;
 
 import static com.example.beer.utlis.SortUtils.returnSortedAbvAscList;
 import static com.example.beer.utlis.SortUtils.returnSortedAbvDescList;
@@ -52,7 +42,6 @@ public class BeerListActivity extends AppCompatActivity implements BeerListActiv
     private int pageNumber = 1;
     private int filterOn = 0;
     private BeerListAdapter beerListAdapter;
-    private BeerService beerService;
     private List<BeerDto> beerDtos = new ArrayList<>();
     private BeerRepository beerRepository;
     private Disposable disposable;
@@ -64,26 +53,8 @@ public class BeerListActivity extends AppCompatActivity implements BeerListActiv
 
         Stetho.initializeWithDefaults(this);
 
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(interceptor)
-                .addNetworkInterceptor(new StethoInterceptor())
-                .build();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .client(client)
-                .baseUrl(getString(R.string.api_base_url))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(MoshiConverterFactory.create())
-                .build();
-
-        beerService = retrofit.create(BeerService.class);
-
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "Database").build();
-        BeerDao beerDao = db.beerDao();
-        beerRepository = new BeerRepository(beerDao, beerService);
+        App app = ((App) getApplication());
+        beerRepository = app.beerRepository;
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view_retrofit);
         beerListAdapter = new BeerListAdapter();
@@ -193,8 +164,8 @@ public class BeerListActivity extends AppCompatActivity implements BeerListActiv
 
     @Override
     public void passShit(String shitName, int howManyShits, int howBigShitis) {
-        Toast.makeText(this, shitName + " is "
-                + howBigShitis + "cm long and there's "
-                + howManyShits + " of them.", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, shitName + " is "
+//                + howBigShitis + "cm long and there's "
+//                + howManyShits + " of them.", Toast.LENGTH_SHORT).show();
     }
 }

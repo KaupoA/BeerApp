@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -102,7 +101,7 @@ public class BeerListAdapter extends RecyclerView.Adapter<BeerListAdapter.MyView
         TextView beerEbc;
         ImageView imageView;
         RelativeLayout beerListLayout;
-        ImageButton favouriteButton;
+        ImageView favouriteButton;
 
         MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -113,7 +112,7 @@ public class BeerListAdapter extends RecyclerView.Adapter<BeerListAdapter.MyView
             beerEbc = itemView.findViewById(R.id.beer_ebc);
             imageView = itemView.findViewById(R.id.beer_image);
             beerListLayout = itemView.findViewById(R.id.beer_list_layout);
-            favouriteButton = itemView.findViewById(R.id.favouriteButton);
+            favouriteButton = itemView.findViewById(R.id.beer_details_favourite_button);
         }
     }
 
