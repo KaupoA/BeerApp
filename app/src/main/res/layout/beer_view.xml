@@ -1,17 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/beer_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#000"
-        android:textSize="17sp"
-        tools:text="Saku Originaal" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-</LinearLayout>
+        <ImageView
+            android:id="@+id/beer_list_image"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_centerHorizontal="true"
+            android:scaleType="fitCenter"
+            tools:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/beer_list_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/beer_list_image"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:textColor="#000"
+            android:textSize="17sp"
+            tools:text="Buzz" />
+
+        <TextView
+            android:id="@+id/beer_list_tagline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/beer_list_name"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:textColor="#000"
+            android:textSize="17sp"
+            tools:text="A Real Bitter Experience." />
+
+        <LinearLayout
+            android:id="@+id/beer_abv_ibu_ebc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/beer_list_tagline"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true">
+
+            <TextView
+                android:id="@+id/beer_list_abv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:textColor="#000"
+                android:textSize="17sp"
+                tools:text="ABV: 1350.0" />
+
+            <TextView
+                android:id="@+id/beer_list_ibu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:textColor="#000"
+                android:textSize="17sp"
+                tools:text="IBU: 2500.0" />
+
+            <TextView
+                android:id="@+id/beer_list_ebc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:textSize="17sp"
+                tools:text="EBC: 4257.3" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/beer_list_boil_volume"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/beer_abv_ibu_ebc"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:text="Boil volume:"
+            android:textColor="#000"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/beer_list_boil_volume_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/beer_list_boil_volume"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="5dp"
+            android:textColor="#000"
+            tools:text="Value: 25" />
+
+        <TextView
+            android:id="@+id/beer_list_boil_volume_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/beer_list_boil_volume_value"
+            android:layout_centerHorizontal="true"
+            android:textColor="#000"
+            tools:text="Unit: litres" />
+
+        <TextView
+            android:id="@+id/beer_list_ingridients_hops_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@id/beer_list_boil_volume_unit"
+            android:layout_centerHorizontal="true">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/beer_list_ingridients_malt_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@id/beer_list_ingridients_hops_textview"
+            android:layout_centerHorizontal="true">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/beer_list_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/beer_list_ingridients_malt_textview"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:textColor="#000"
+            android:textSize="17sp"
+            tools:text="A light, crisp and bitter IPA brewed with English and American hops. A small batch brewed only once." />
+
+    </RelativeLayout>
+</ScrollView>
