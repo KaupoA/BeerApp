@@ -165,13 +165,6 @@ public class BeerListActivity extends AppCompatActivity implements BeerListActiv
                 .subscribe();
     }
 
-    @Override
-    public void passShit(String shitName, int howManyShits, int howBigShitis) {
-//        Toast.makeText(this, shitName + " is "
-//                + howBigShitis + "cm long and there's "
-//                + howManyShits + " of them.", Toast.LENGTH_SHORT).show();
-    }
-
     public void getBeersFromDb() {
         disposable = beerRepository.get()
                 .observeOn(AndroidSchedulers.mainThread())

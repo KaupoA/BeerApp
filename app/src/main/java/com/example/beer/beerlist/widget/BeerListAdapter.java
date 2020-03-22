@@ -75,11 +75,6 @@ public class BeerListAdapter extends RecyclerView.Adapter<BeerListAdapter.MyView
         holder.beerListLayout.setOnClickListener(v -> {
 
             beerListActivityCallback.navigateToBeerDetails(beerDtos.get(position));
-
-            String shitName = "Pruun pask";
-            int howManyShits = 2;
-            int howBigShitis = 7;
-            beerListActivityCallback.passShit(shitName, howManyShits, howBigShitis);
         });
     }
 
